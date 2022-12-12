@@ -1,0 +1,206 @@
+\usepackage
+[
+        a4paper,
+        left=1cm,
+        right=3cm,
+        top=2cm,
+        %bottom=4cm
+]{geometry}
+\usepackage[dvipsnames]{xcolor}
+%   Anpassung Exam Class
+%Lokalisierung
+\hqword{Aufgabe Nr.:}
+\hpword{BE:}
+\htword{\textbf{$\Sigma$}}
+\hsword{Davon erreicht:}
+\renewcommand{\solutiontitle}{\noindent\textbf{Lösung:}\enspace}
+\pointpoints{BE}{BE}
+\bonuspointpoints{BE (bonus)}{BE (bonus)}
+
+%Anpassung der Labels
+\renewcommand{\partlabel}{\thepartno)}
+\renewcommand{\subpartlabel}{(\thesubpart.)}
+
+%Sonstige Formatierungen
+\addpoints
+\bracketedpoints
+\pointsdroppedatright
+\marginpointname{ \points}
+\pointformat{\thepoints}
+%\qformat{{\textbf{Aufgabe \thequestion}}  \hfill \underline{\hspace{0.5cm}} / \thepoints}
+\qformat{{\textbf{Aufgabe \thequestion \hfill}} }
+\totalformat{\framebox(140,30){Erreicht: \underline{\hspace{0.7cm}} von \totalpoints \hspace*{0.03cm} BE}}
+%\totalformat{Erreicht: \underline{\hspace{0.7cm}} von \totalpoints \hspace*{0.03cm} BE}
+\usepackage{tikz}
+\usetikzlibrary{quotes,arrows.meta}
+\usetikzlibrary{decorations.pathreplacing}
+\tikzset{
+  annotated cuboid/.pic={
+    \tikzset{%
+      every edge quotes/.append style={midway, auto},
+      /cuboid/.cd,
+      #1
+    }
+    \draw [every edge/.append style={pic actions, densely dashed, opacity=.5}, pic actions]
+    (0,0,0) coordinate (o) -- ++(-\cubescale*\cubex,0,0) coordinate (a) -- ++(0,-\cubescale*\cubey,0) coordinate (b) edge coordinate [pos=1] (g) ++(0,0,-\cubescale*\cubez)  -- ++(\cubescale*\cubex,0,0) coordinate (c) -- cycle
+    (o) -- ++(0,0,-\cubescale*\cubez) coordinate (d) -- ++(0,-\cubescale*\cubey,0) coordinate (e) edge (g) -- (c) -- cycle
+    (o) -- (a) -- ++(0,0,-\cubescale*\cubez) coordinate (f) edge (g) -- (d) -- cycle;
+    \path [every edge/.append style={pic actions, |-|}]
+    (b) +(0,-5pt) coordinate (b1) edge ["\cubex \cubeunits"'] (b1 -| c)
+    (b) +(-5pt,0) coordinate (b2) edge ["\cubey \cubeunits"] (b2 |- a)
+    (c) +(3.5pt,-3.5pt) coordinate (c2) edge ["\cubez \cubeunits"'] ([xshift=3.5pt,yshift=-3.5pt]e)
+    ;
+  },
+  /cuboid/.search also={/tikz},
+  /cuboid/.cd,
+  width/.store in=\cubex,
+  height/.store in=\cubey,
+  depth/.store in=\cubez,
+  units/.store in=\cubeunits,
+  scale/.store in=\cubescale,
+  width=10,
+  height=10,
+  depth=10,
+  units=cm,
+  scale=.1,
+}
+
+
+
+
+\usepackage{calculator}
+%   Table of Contents
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{tocloft}
+    \cftsetindents{section}{0em}{2em}
+    \cftsetindents{subsection}{0em}{2em}
+    \renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
+    \renewcommand\cftaftertoctitle{\hfill\mbox{}}
+    \setcounter{tocdepth}{3}
+    
+%   Funktionen plotten
+\usepackage{pgfplots}
+    \pgfplotsset{compat=1.18} %sonst backwardscompatible warning
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\graphicspath{ {./bilder/} }
+\usepackage[german]{babel}
+\usepackage{dashrule}
+\usepackage{color}
+	\colorgrids
+	\definecolor{GridColor}{rgb}{0.05, 0.05, 0.05}
+	\shadedsolutions
+\usepackage{colortbl}
+    \newcolumntype{g}{>{\columncolor{Gray}}c}
+
+\newcommand{\afb}[1]{\ifprintanswers AFB #1 \fi}
+
+\newcommand{\gridsolution}[2]{\begin{solutionorgrid}[#2]
+\begin{minipage}[t][#2][t]{14cm}
+#1
+\end{minipage}
+\end{solutionorgrid}}
+
+\newcommand{\dotlinesolution}[2]{\begin{solutionordottedlines}[#2]
+\begin{minipage}[t][#2][t]{14cm}
+#1
+\end{minipage}
+\end{solutionordottedlines}}
+
+\newcommand{\fillinsol}[1]{\textbf{\textcolor{black}{\fillin[#1]}}}
+%do midfill, shortfill,longfill
+\newcommand{\tf}[1][{}]{\fillin[#1][0.25in]}
+
+\newcommand{\loeslin}{\underline{\hspace*{1.5cm}}}
+\newcommand{\loeslinl}{\underline{\hspace*{3cm}}}
+
+
+%Variable für Anzahl der Fragen
+\AtEndDocument{%
+  \ifdefined\exam@numquestions
+    \immediate\write\@auxout{\string\total@questions{\exam@numquestions}}%
+  \fi
+}
+\newcommand{\total@questions}[1]{\gdef\totalquestions{#1}}
+\providecommand{\totalquestions}{1}
+\makeatother
+
+%Koordinatensystem erstellen
+\newcommand{\graphzeichnen}[5][0]{%
+\pgfplotsset{compat=1.8}
+\begin{tikzpicture}[domain=#2:#3,smooth]
+  \begin{axis}[
+      width=12cm,height=12cm,
+      axis lines=middle,
+      domain=#2:#3,
+      smooth,
+      no markers,
+      grid,
+      xmin=#2,xmax=#3,
+      tick style=black,
+      xtick={#2,...,#3},
+      xlabel=$x$,
+      xlabel style={below, anchor=north east,inner xsep=0pt},
+      restrict y to domain=#4:#5,
+      ymin=#4,ymax=#5,
+      ytick={#4,...,#5},ylabel=$y$,
+      ylabel style={above,anchor=north east,inner ysep=0pt},
+      samples=100,
+    ]
+      %  \pgfplotsinvokeforeach {-10,-9.5,...,10}{
+      % \pgfonlayer{axis grid}
+      %   \begin{scope}
+      %     \clip(current axis.south west)rectangle(current axis.north east);
+      %     \draw[help lines](#1,0|-current axis.south)--(#1,0|-current axis.north);
+      %     \draw[help lines](0,#1-|current axis.west)--(0,#1-|current axis.east);
+      %   \end{scope}
+      % \endpgfonlayer
+      % }
+    \addplot[color=green]{2*pow(\x-3,2)-3}node[pos=1, below right]{$p_1$};
+    \addplot{-1*pow(\x-3,2)+1}node[pos=1, above right]{$p_2$};
+    \addplot{-0.4*pow(\x+3,2)+1}node[pos=1, above right]{$p_4$};
+    \addplot{pow(\x,2)+1}node[pos=1, above right]{$p_5$};
+  \end{axis}
+\end{tikzpicture}
+}
+
+
+
+\usepackage{amsmath,amssymb}
+
+\usepackage{pst-all}\psset{unit=1cm}
+
+\newcommand{\R}{{\rm I\!R}}
+\newcommand{\N}{{\rm I\!N}}
+\newcommand{\myskip}{ \vspace{2mm}}
+\newcommand{\skippy}{ \hspace{7mm}}
+\newcommand{\Log}{{\rm Log}\,}
+\renewcommand{\ln}{{\rm ln}\,}
+
+\newenvironment{aufgabe}{\question}{\droptotalpoints}
+\newenvironment{teilaufgaben}{\begin{parts}}{\end{parts}\droppoints}
+
+\usepackage{array}
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}p{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+\newcolumntype{G}{>{\columncolor{Gray}}C}
+\usepackage{tabularray}
+
+%Eurozeichen
+\usepackage{textcomp}
+\usepackage{eurosym}
+
+\checkboxchar{$\Box$}
+\checkedchar{$\blacksquare$}

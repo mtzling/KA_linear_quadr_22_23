@@ -1,0 +1,61 @@
+
+\firstpageheadrule
+
+%\thispagestyle{headandfoot}
+\newgeometry{left=1.5cm,
+        right=1.5cm,
+        top=4cm,
+        bottom=1cm}
+\coverheader
+	{Lehrkraft: \lehrname\linebreak
+		Fach: \ufach \linebreak
+		\lstniveau}
+	{\medskip\Large{\textbf{Klassenarbeit Nr. \kanr}} \linebreak
+		\normalsize{\kathema}}
+	{{\fontsize{12}{16}{\selectfont Name:\enspace\makebox[4cm]{\hrulefill}\linebreak Klasse:\enspace\makebox[4cm]{\hrulefill}\linebreak Datum:\enspace\makebox[4cm]{\hrulefill}}}}
+\begin{coverpages}
+%############################# DECKBLATT ################
+\vspace*{-0.7cm}\hrule \vspace*{0.5cm}
+\begin{large}
+\textbf{Bearbeitungshinweise}
+\end{large}
+\begin{itemize}
+\item Das Deckblatt darf erst auf Anweisung der Lehrkraft umgeblättert werden.
+\item Tragt rechts oben euren Namen ein.
+\item Die Bearbeitungszeit beträgt \bearbzeit .
+\item Lest die Aufgaben in Ruhe und ganz genau durch.
+\item Lösungswege und Rechnungen müssen nachvollziehbar sein.
+\item Achtet auf gute Lesbarkeit, Rechtschreibung und Zeichensetzung.
+\item Antwortsatz nicht vergessen!
+\item Zugelassene Hilfsmittel: \zglhilf
+\end{itemize}
+\vspace*{0.3cm}
+\begin{center}
+\begin{huge}
+Viel Erfolg!
+\end{huge}
+\linebreak\includegraphics[scale=0.2]{smiley}
+\linebreak
+\hdashrule[0.1ex]{18.5cm}{0.5mm}{3mm 3pt} 
+\end{center}
+\begin{center}
+\cellwidth{2.2em}
+%TO DO: Anzahl der Zeilen von Anz. der Aufgaben abh.
+\newcommand{\bwrtzeilen}{1}
+%\multirowgradetable{\bwrtzeilen}[questions]
+\INTEGERDIVISION{\totalquestions}{10}{\sola}{\solb}
+\ADD{\sola}{1}{\numrows}
+\multirowgradetable{%
+  \numrows
+}[questions]
+
+\vspace*{0.7cm}
+Diese Klassenarbeit besteht aus \numquestions\ Aufgaben. Insgesamt waren \numpoints\ Bewertungseinheiten (BE) zu erreichen. \smallskip
+
+Du hast \underline{\hspace*{1.5cm}} BE erreicht. Das sind \underline{\hspace*{1.5cm}} Prozent. \medskip
+
+
+\framebox(350,50){\textbf{Notenpunkte:} \underline{\hspace*{2cm}} \hspace*{1cm} \textbf{Note:} \underline{\hspace*{2cm}}}
+\end{center}
+\end{coverpages}
+\restoregeometry
